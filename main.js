@@ -11,7 +11,7 @@ function createWindow() {
       contextIsolation: true,
       webviewTag: true,
       webSecurity: false,
-      partition: 'persist:aysOS12'
+      partition: 'persist:aysOS13'
     }
   });
 
