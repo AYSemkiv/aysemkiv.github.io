@@ -1,21 +1,22 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, session } = require('electron'); // Added session here
 const path = require('path');
 
 function createWindow() {
+  // Create or retrieve the custom persistent session
+  const customSession = session.fromPartition('persist:aysOS13');
+
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
-    autoHideMenuBar: true, // hides File/Edit/View bar
+    autoHideMenuBar: true, 
     webPreferences: {
+      session: customSession, // Assign the persistent session directly to the window
       nodeIntegration: false,
       contextIsolation: true,
-      webviewTag: true,
-      webSecurity: false,
-      partition: 'persist:aysOS13'
+      webSecurity: false
     }
   });
 
-  // Fully remove menu (extra safety)
   win.setMenu(null);
 
   // Block reload + devtools shortcuts
@@ -33,7 +34,8 @@ function createWindow() {
     }
   });
 
-  win.loadFile('index.html');
+  // Loads your URL directly into the window using your isolated session data
+  win.loadURL('https://raw.githubusercontent.com/AYSemkiv/aysemkiv.github.io/main/aysOS13.html');
 }
 
 app.whenReady().then(createWindow);
